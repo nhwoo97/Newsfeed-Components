@@ -1,6 +1,9 @@
 // This is the data we will be using to create our articles. Look at it, then proceed to line 93.
 // OPTIONAL: if you're feeling adventurous, try to make this data an export from a different module, and import it here.
 // You can read about ES6 modules here: https://exploringjs.com/es6/ch_modules.html#sec_basics-of-es6-modules
+
+import {gsap} from 'gsap'
+
 const data = [
   {
     title: 'Lambda School Students: "We\'re the best!"',
@@ -86,31 +89,91 @@ const data = [
     thirdParagraph: `Hodor hodor - hodor... Hodor hodor hodor hodor. Hodor. Hodor! Hodor hodor, hodor hodor hodor hodor hodor; hodor hodor? Hodor!
           Hodor hodor, HODOR hodor, hodor hodor?! Hodor! Hodor hodor, HODOR hodor, hodor hodor, hodor, hodor hodor. Hodor, hodor.
           Hodor. Hodor, hodor, hodor. Hodor hodor... Hodor hodor hodor?! Hodor, hodor... Hodor hodor HODOR hodor, hodor hodor. Hodor.`
+  },
+  {
+    title: 'Nam has top news!!!',
+    date: 'Feb 19th, 1997',
+    firstParagraph: `Hodor hodor HODOR! Hodor hodor - hodor, hodor. Hodor hodor... Hodor hodor hodor; hodor hodor. Hodor hodor hodor, hodor, hodor
+          hodor. Hodor, hodor. Hodor. Hodor, hodor - hodor... Hodor hodor hodor; hodor HODOR hodor, hodor hodor?! Hodor hodor, hodor.
+          Hodor hodor hodor hodor hodor! Hodor hodor - HODOR hodor, hodor hodor hodor hodor hodor; hodor hodor? `,
+
+    secondParagraph: `Hodor, hodor. Hodor. Hodor, hodor, hodor. Hodor hodor, hodor. Hodor hodor, hodor, hodor hodor. Hodor! Hodor hodor, hodor;
+          hodor hodor hodor? Hodor, hodor. Hodor. Hodor, hodor - HODOR hodor, hodor hodor hodor! Hodor, hodor. Hodor. Hodor, HODOR
+          hodor, hodor hodor, hodor, hodor hodor. Hodor hodor - hodor - hodor... Hodor hodor hodor hodor hodor hodor hodor?! Hodor
+          hodor - hodor hodor hodor. Hodor. Hodor hodor... Hodor hodor hodor hodor hodor? `,
+
+    thirdParagraph: `Hodor hodor - hodor... Hodor hodor hodor hodor. Hodor. Hodor! Hodor hodor, hodor hodor hodor hodor hodor; hodor hodor? Hodor!
+          Hodor hodor, HODOR hodor, hodor hodor?! Hodor! Hodor hodor, HODOR hodor, hodor hodor, hodor, hodor hodor. Hodor, hodor.
+          Hodor. Hodor, hodor, hodor. Hodor hodor... Hodor hodor hodor?! Hodor, hodor... Hodor hodor HODOR hodor, hodor hodor. Hodor.`
   }
 ];
 
-/*
-  Step 1: Write a component called 'articleMaker' to create an article.
-  Your component is a function that takes an article object as its only argument,
-  and returns a DOM node looking like the one below:
 
-  <div class="article">
-    <h2>{title of the article}</h2>
-    <p class="date">{date of the article}</p>
+// Step 1: Write a component called 'articleMaker' to create an article.
+// Your component is a function that takes an article object as its only argument,
+// and returns a DOM node looking like the one below:*/
 
-    {three separate paragraph elements}
+function articleMaker(newsObj) {
 
-    <span class="expandButton">+</span>
-  </div>
+  // <div class="article">
+  //   <h2>{title of the article}</h2>
+  //   <p class="date">{date of the article}</p>
 
-  Step 2: Still inside `articleMaker`, add an event listener to the span.expandButton.
-  This listener should toggle the class 'article-open' on div.article.
+  //   {three separate paragraph elements}
 
-  Step 3: Don't forget to return something from your function!
+  //   <span class="expandButton">+</span>
+  // </div>
 
-  Step 4: Outside your function now, loop over the data. At each iteration you'll use your component
-  to create a div.article element and append it to the DOM inside div.articles (see index.html).
+  const article = document.createElement('div')
+  const title = document.createElement('h2')
+  const date = document.createElement('p')
+  const firstParagraph = document.createElement('p')
+  const secondParagraph = document.createElement('p')
+  const thirdParagraph = document.createElement('p')
+  const button = document.createElement('span')
 
-  Step 5: Try adding new article object to the data array. Make sure it is in the same format as the others.
-  Refresh the page to see the new article.
-*/
+  article.appendChild(title)
+  article.appendChild(date)
+  article.appendChild(firstParagraph)
+  article.appendChild(secondParagraph)
+  article.appendChild(thirdParagraph)
+  article.appendChild(button)
+
+  article.classList.add('article')
+  date.classList.add('date')
+  button.classList.add('expandButton')
+
+  title.textContent = newsObj.title
+  date.textContent = newsObj.date
+  firstParagraph.textContent = newsObj.firstParagraph
+  secondParagraph.textContent = newsObj.secondParagraph
+  thirdParagraph.textContent = newsObj.thirdParagraph
+  
+  button.textContent = '='
+
+
+  // Step 2: Still inside `articleMaker`, add an event listener to the span.expandButton.
+  // This listener should toggle the class 'article-open' on div.article.
+
+  button.addEventListener('click', () => {
+    article.classList.toggle('article-open')
+  })
+
+  return article
+}
+
+// Step 3: Don't forget to return something from your function!
+
+// Step 4: Outside your function now, loop over the data. At each iteration you'll use your component
+// to create a div.article element and append it to the DOM inside div.articles (see index.html).
+
+const articles = document.querySelector('.articles')
+data.forEach(newsObj => {
+  const theData = articleMaker(newsObj)
+  articles.appendChild(theData)
+})
+
+gsap.to(".articles", {rotation: 360, x: 100, duration: 3, delay: 2});
+  // Step 5: Try adding new article object to the data array. Make sure it is in the same format as the others.
+  // Refresh the page to see the new article.
+
